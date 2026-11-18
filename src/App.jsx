@@ -1,23 +1,42 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Services from "./components/Services";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
-import Gewinnspiel from "./components/Gewinnspiel";
+import { useState } from 'react'
 
-function App() {
-  return (
-    <>
-      <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Contact />
-      {/* <Gewinnspiel /> */}
-      <Footer />
-    </>
-  );
+const photo = (id, width = 1400) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`
+const images = {
+  hero: photo('photo-1600607687920-4e2a09cf159d', 2200),
+  interior: photo('photo-1600210492486-724fe5c67fb0'),
+  house: photo('photo-1600596542815-ffad4c1539a9'),
 }
+const services = [
+  ['01', 'Kauf & Verkauf', 'Neue Räume. Neue Möglichkeiten.', 'Vom ersten Gespräch bis zur Schlüsselübergabe begleiten wir Sie beim Kauf und Verkauf Ihrer Immobilie.', ['Persönliche Beratung', 'Vermarktung & Besichtigungen', 'Begleitung bis zum Abschluss']],
+  ['02', 'Immobilienverwaltung', 'Ihr Eigentum in guten Händen.', 'Wir kümmern uns um die laufenden Aufgaben Ihrer Liegenschaft und behalten Ihre Interessen im Blick.', ['Mieterbetreuung', 'Unterhalt & Koordination', 'Transparente Abrechnungen']],
+  ['03', 'Projektentwicklung', 'Aus einer Idee wird Zukunft.', 'Wir unterstützen Sie dabei, Potenziale zu erkennen und Immobilienprojekte strukturiert weiterzuentwickeln.', ['Potenzialanalyse', 'Planung & Koordination', 'Begleitung der Umsetzung']],
+  ['04', 'Buchhaltung', 'Klarheit bis ins Detail.', 'Eine sorgfältige Immobilienbuchhaltung schafft Übersicht und eine verlässliche Grundlage für Ihre Entscheidungen.', ['Liegenschaftsbuchhaltung', 'Finanzielle Übersicht', 'Nachvollziehbare Dokumentation']],
+]
+const faqs = [
+  ['Wie läuft ein erstes Beratungsgespräch ab?', 'Wir sprechen über Ihre Immobilie, Ihre Ziele und Ihre Fragen. Gemeinsam klären wir, welche Unterstützung sinnvoll ist und wie die nächsten Schritte aussehen können.'],
+  ['In welcher Region ist Zefi Immobilien tätig?', 'Unser Schwerpunkt liegt im Kanton Thurgau. Für eine Anfrage zu einer Liegenschaft ausserhalb der Region kontaktieren Sie uns gerne direkt.'],
+  ['Kann ich auch einzelne Leistungen anfragen?', 'Ja. Ob Verkauf, Verwaltung, Projektentwicklung oder Buchhaltung: Wir besprechen mit Ihnen, welche Leistungen zu Ihrem Anliegen passen.'],
+  ['Welche Unterlagen soll ich bereithalten?', 'Hilfreich sind, soweit vorhanden, Grundrisse, Angaben zur Liegenschaft und bestehende Mietunterlagen. Im ersten Gespräch klären wir, welche Dokumente für Ihr Anliegen benötigt werden.'],
+]
+function Arrow() { return <span aria-hidden="true">↗</span> }
+function Brand() { return <a className="brand" href="#home" aria-label="Zefi Immobilien – Startseite"><svg viewBox="0 0 42 46" fill="none" aria-hidden="true"><path d="M4 40V17L21 5l17 12v23H4Z" stroke="currentColor" strokeWidth="1.6"/><path d="M12 18h18L12 34h18M21 5v8" stroke="currentColor" strokeWidth="1.6"/></svg><span>ZEFI<span className="brand-sub">IMMOBILIEN</span></span></a> }
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  return <>
+    <a className="skip-link" href="#main">Zum Inhalt</a>
+    <header className="header"><div className="container nav"><Brand/><button className="menu-toggle" aria-expanded={menuOpen} aria-controls="navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'Schliessen ×' : 'Menü ☰'}</button><nav id="navigation" className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Hauptnavigation">{[['about','Über uns'],['services','Leistungen'],['approach','Unser Ansatz']].map(([id,label]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}<a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>Kontakt aufnehmen <Arrow/></a></nav></div></header>
+    <main id="main">
+      <section className="hero" id="home"><img className="hero-image" src={images.hero} alt="Lichtdurchfluteter Wohnraum mit grossen Fenstern und Blick ins Grüne" fetchPriority="high"/><div className="hero-shade"/><div className="container hero-content"><div className="eyebrow light"><span/> ZUHAUSE IM THURGAU. FÜR SIE DA.</div><h1>Immobilien sind Räume.<br/>Wir sehen <em>Möglichkeiten.</em></h1><p>Ihr persönlicher Partner für Kauf, Verkauf und Verwaltung.<br className="desktop-break"/> Mit Weitblick für Ihre Immobilie. Und einem offenen Ohr für Sie.</p><div className="hero-actions"><a className="button button-gold" href="#contact">Lassen Sie uns sprechen <Arrow/></a><a className="text-link" href="#services">Unsere Leistungen <span aria-hidden="true">↓</span></a></div></div><div className="hero-bottom container"><span>THURGAU, SCHWEIZ</span><a href="#about">MEHR ENTDECKEN <span aria-hidden="true">↓</span></a><span>SEIT 2013 AN IHRER SEITE</span></div></section>
+      <div className="intro-strip"><div className="container"><span>Persönlich engagiert.</span><span>Regional verbunden.</span><span>Mit Blick auf morgen.</span></div></div>
+      <section className="section container about" id="about"><div className="about-visual"><img src={images.interior} loading="lazy" alt="Heller Wohnbereich mit natürlichen Materialien und sorgfältiger Einrichtung"/><div className="since"><strong>2013</strong><span>Der Beginn einer<br/>persönlichen Verbindung.</span></div></div><div className="about-copy"><p className="eyebrow">DAS IST ZEFI IMMOBILIEN</p><h2>Es geht um mehr<br/>als vier <em>Wände.</em></h2><p className="lead">Es geht um Ihr Zuhause. Ihre Investition. Ihre Zukunft.</p><p>Seit 2013 ist die Zefi Immobilien GmbH im Kanton Thurgau tätig. Wir verbinden Immobilienkompetenz mit dem Anspruch, jedes Anliegen persönlich und sorgfältig zu begleiten.</p><p>Ob Sie verkaufen, kaufen oder die Verwaltung Ihrer Liegenschaft abgeben möchten: Wir hören zu, denken mit und entwickeln mit Ihnen den passenden nächsten Schritt.</p><a className="inline-link" href="#contact">Lernen wir uns kennen <Arrow/></a></div></section>
+      <section className="services section" id="services"><div className="container"><div className="section-heading"><div><p className="eyebrow">UNSERE LEISTUNGEN</p><h2>Für jede Immobilie.<br/>Für Ihre <em>Pläne.</em></h2></div><p>Vier Bereiche. Ein Ansprechpartner.<br/>Die passende Unterstützung für jede Phase<br className="desktop-break"/> Ihrer Immobiliengeschichte.</p></div><div className="service-grid">{services.map(([number,title,subtitle,description,items]) => <article className="service-card" key={number}><span className="service-number">{number} /</span><h3>{title}</h3><p className="service-subtitle">{subtitle}</p><p>{description}</p><ul>{items.map(item => <li key={item}>{item}</li>)}</ul><a href="#contact" aria-label={`${title}: Beratung anfragen`}>Beratung anfragen <Arrow/></a></article>)}</div></div></section>
+      <section className="statement"><img src={images.house} alt="Zeitgenössisches Wohnhaus mit Garten und grosszügiger Terrasse" loading="lazy"/><div className="statement-overlay"/><div className="container"><p className="eyebrow light">VERTRAUEN BEGINNT MIT EINEM GESPRÄCH</p><h2>Ihre Immobilie verdient<br/><em>persönlichen Einsatz.</em></h2><a className="button button-white" href="#contact">Ihr Vorhaben besprechen <Arrow/></a></div></section>
+      <section className="section container approach" id="approach"><div className="section-heading"><div><p className="eyebrow">UNSER ANSATZ</p><h2>Ein klarer Weg.<br/>Ein gutes <em>Gefühl.</em></h2></div><p>Immobilienentscheidungen sind persönlich.<br/>Deshalb gestalten wir die Zusammenarbeit<br className="desktop-break"/> verständlich, offen und auf Augenhöhe.</p></div><div className="steps">{[['01','Zuhören & verstehen','Wir nehmen uns Zeit für Ihre Situation, Ihre Wünsche und Ihre Ziele.'],['02','Gemeinsam planen','Sie erhalten einen klaren Überblick über das Vorgehen und die nächsten Schritte.'],['03','Sorgfältig umsetzen','Wir koordinieren die vereinbarten Aufgaben und halten Sie auf dem Laufenden.']].map(([n,title,copy]) => <article key={n}><span>{n}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
+      <section className="faq-section"><div className="container faq-layout"><div><p className="eyebrow">GUT ZU WISSEN</p><h2>Ihre Fragen.<br/>Unsere <em>Antworten.</em></h2><p>Noch etwas offen? Wir sind gerne für Sie da.</p><a className="inline-link" href="tel:+41764302018">+41 76 430 20 18 <Arrow/></a></div><div className="faq-list">{faqs.map(([q,a]) => <details key={q}><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>)}</div></div></section>
+      <section className="section container contact" id="contact"><div className="contact-copy"><p className="eyebrow">DER ERSTE SCHRITT IST GANZ EINFACH</p><h2>Was haben<br/>Sie <em>vor?</em></h2><p>Erzählen Sie uns von Ihrem Anliegen.<br/>Gemeinsam finden wir heraus, wie wir Sie<br className="desktop-break"/> unterstützen können.</p><div className="contact-details"><a href="tel:+41764302018"><small>RUFEN SIE UNS AN</small>+41 76 430 20 18 <Arrow/></a><a href="mailto:info@zefiimmobilien.ch"><small>SCHREIBEN SIE UNS</small>info@zefiimmobilien.ch <Arrow/></a><div><small>UNSERE REGION</small>Thurgau, Schweiz</div></div></div></section>
+    </main><footer><div className="container footer-top"><Brand/><p>Immobilien mit Weitblick.<br/>Zusammenarbeit mit Persönlichkeit.</p><a href="#home">Zurück nach oben ↑</a></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} Zefi Immobilien GmbH</span><span>Thurgau · Schweiz</span><a href="mailto:info@zefiimmobilien.ch">Kontakt</a></div></footer>
+  </>
+}
+export default App
 
-export default App;
+
